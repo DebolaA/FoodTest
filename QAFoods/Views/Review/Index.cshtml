@@ -1,0 +1,263 @@
+﻿@model QAFoods.Review
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/css/site.css" rel="stylesheet" />
+
+@using (Html.BeginForm())
+{
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Make a Food Review</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        FOOD TEST
+                    </div>
+                    <hr />
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <b> Select a Food Item to Review:</b>
+                                    <select id="dd_food" name="dd_food">
+                                        <option value="0">--Select Food Item--</option>
+                                    </select>
+                                    <input type="text" id="selectErrorMsg" class="form-control text-danger" value="Please select food item to review" style="display: none" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <b>Food Description:</b> <label id="foodDesc"></label>
+                            </div>
+                            <div class="col-lg-12">
+                                <b>Reviewed By:</b> <label id="reviewedBy"></label>
+                            </div>
+                            <div class="col-lg-12">
+                                <b> Reviewed On:</b> <label id="reviewDt"></label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <table id="tblReview" class="table table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 200px">Test Category</th>
+                                            <th>Score</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 200px">Presentation</td>
+                                            <td>
+                                                <input type="text" id="txtPresentation" class="form-control scorebox" maxlength="1" style="width: 100px;" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 200px">Texture</td>
+                                            <td>
+                                                <input type="text" id="txtTexture" class="form-control scorebox" maxlength="1" style="width: 100px;" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 200px">Aroma</td>
+                                            <td>
+                                                <input type="text" id="txtAroma" class="form-control scorebox" maxlength="1" style="width: 100px;" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 200px">Flavour</td>
+                                            <td>
+                                                <input type="text" id="txtFlavour" class="form-control scorebox" maxlength="1" style="width: 100px;" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                                <input type="button" id="btnSubmitReview" class="btn btn-primary" value="Save Test" />
+                                                <input type="text" id="errorMsg" class="form-control text-danger" value="Category Test Scores should be numbers only within the range 1 and 5" style="display: none" />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- /.row (nested) -->
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+    </div>
+}
+
+
+
+@section Scripts{
+    <!-- JS -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            if ($('#dd_food option').length === 1) {
+                console.log("false");
+                $.ajax({
+                    url: "/review/getallfood",
+                    type: "GET",
+                    success: function (data) {
+                        $.each(data, function (index, value) {
+                            $('#dd_food').append(`<option value=${value.foodId} data-desc=${value.foodDesc} data-review=${value.review}>${value.foodName}</option>`);
+                        });
+                        var id = getQueryParameter();
+                        if (id) {
+                            console.log(id);
+                            PopulatePage(id);
+                        }
+                    }
+                });
+            }
+        });
+
+        $('#dd_food').change(function () {
+            var data = $('#dd_food').find(":selected").val();
+            PopulatePage(data);
+        });
+
+        function PopulatePage(id) {
+            $.ajax({
+                url: `/review/GetFoodReview?id=${id}`,
+                type: "Get",
+                dataType: "json",
+                contentType: "application/json;",
+                success: function (data) {
+                    if (data) {
+                        $(`#dd_food option[value=${id}]`).attr('selected', 'selected');
+                        var desc = $('#dd_food').find(":selected").attr('data-desc');
+                        $('#dd_food').attr('data-rev', data.allReviews[0].reviewId);
+                        (desc == null) ? $('#foodDesc').text("-") : $('#foodDesc').text(desc);
+                        $('#reviewedBy').text(data.allReviews[0].username);
+                        $('#reviewDt').text(data.allReviews[0].reviewedOn);
+                        (data.allReviews[0].aromaScore == 0) ? $('#txtAroma').val("") : $('#txtAroma').val(data.allReviews[0].aromaScore);
+                        (data.allReviews[0].textureScore == 0) ? $('#txtTexture').val("") : $('#txtTexture').val(data.allReviews[0].textureScore);
+                        (data.allReviews[0].presentationScore == 0) ? $('#txtPresentation').val("") : $('#txtPresentation').val(data.allReviews[0].presentationScore);
+                        (data.allReviews[0].flavourScore == 0) ? $('#txtFlavour').val("") : $('#txtFlavour').val(data.allReviews[0].flavourScore);
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log('Error in Operation');
+                }
+            });
+        }
+
+        function getQueryParameter() {
+            var url = window.location.href;
+            var arr = url.split('/');
+            var id = arr[arr.length - 1];
+            return parseInt(id);
+        }
+
+        $('#btnSubmitReview').click(function (event) {
+            var result = false;
+            var foodId = $('#dd_food').find(":selected").val();
+            var res = ValidateFoodId(event, foodId);
+            var result = ValidateForm(event, foodId);
+            var reviewId = $('#dd_food').attr('data-rev');
+            var reviewedBy = 2;
+            var reviewedOn = new Date();
+            var postReview = {
+                ReviewId: reviewId,
+                UserId: reviewedBy,
+                ReviewedOn: reviewedOn,
+                FoodId: parseInt(foodId),
+                FoodName: "",
+                PresentationScore: parseInt($('#txtPresentation').val()),
+                AromaScore: parseInt($('#txtAroma').val()),
+                FlavourScore: parseInt($('#txtFlavour').val()),
+                TextureScore: parseInt($('#txtTexture').val())
+            };
+            if (result && res) {
+                $.ajax({
+                    url: (reviewId == 0) ? "/review/saveFoodReview" : "/review/updateFoodReview",
+                    type: "POST",
+                    dataType: "json",
+                    data: JSON.stringify(postReview),
+                    contentType: "application/json;",
+                    success: function (data) {
+                        console.log(data);
+                        RedirectToUrl(`/review/index/${parseInt(foodId)}`);
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.log('Error in Operation');
+                    }
+                });
+            }
+        });
+
+        function RedirectToUrl(url) {
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function (data) {
+                    console.log(data);
+                }
+            })
+        }
+
+        function ValidateForm(e) {
+            var isValid = true;
+            var textboxes = $("input.scorebox");
+            textboxes.each(function (index, value) {
+                if ($.trim($(this).val()) > 5 || $.trim($(this).val()) < 1 || this.value.replace(/[^0-9\.]/g, '') === "") {
+                    isValid = false;
+                    $(this).css({
+                        "border": "1px solid red",
+                        "background": "#FFCECE"
+                    });
+                }
+                else {
+                    $(this).css({
+                        "border": "",
+                        "background": ""
+                    });
+                }
+            });
+            if (isValid == false) {
+                e.preventDefault();
+                $('#errorMsg').css('display', 'block').focus();
+                return isValid;
+            } else {
+                $('#errorMsg').css('display', 'none').focus();
+                return true;
+            }
+
+        }
+
+        function ValidateFoodId(event, foodId) {
+            if (foodId == 0 || foodId == undefined) {
+                $('#dd_food').css({
+                    "border": "1px solid red",
+                    "background": "#FFCECE"
+                }).focus();
+                event.preventDefault;
+                $('#selectErrorMsg').css('display', 'block').focus();
+                return false;
+            } else {
+                $('#selectErrorMsg').css('display', 'none').focus();
+                $('#dd_food').css({
+                    "border": "",
+                    "background": ""
+                }).focus();
+                return true;
+            }
+        }
+    </script>
+}
+

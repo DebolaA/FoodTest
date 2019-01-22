@@ -1,0 +1,113 @@
+﻿@model QAFoods.reviewlist
+
+@{
+    ViewData["Title"] = "FoodReview";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Reviews</h2>
+
+@using (Html.BeginForm())
+{
+<div class="form-horizontal">
+    <h4>Food Details</h4>
+    <hr />
+    @foreach (var val in Model.AllReviews)
+    {
+        <div class="row">
+            <label for="FoodDesc" class="control-label col-md-2">Food Reference</label>
+            <div class="col-md-10">
+                <label id="FoodDesc" value="FoodDesc" name="FoodDesc" class="control-label">@val.FoodId</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <label for="FoodName" class="control-label col-md-2">Food Name:</label>
+            <div class="col-md-10">
+                <label id="FoodName" value="FoodName" name="FoodName" class="control-label">@val.FoodName</label>
+            </div>
+        </div>
+    }
+
+    <h4>Reviews</h4>
+    <hr />
+    <div class="row">
+        <div>
+        </div>
+        <div class="col-md-12">
+            @if (Model.AllReviews[0].Username != null)
+            {
+                <table id="myDataTable" class="table table-bordered table-striped table-hover">
+                    <thead></thead>
+                    <tbody>
+
+                        @foreach (var review in Model.AllReviews)
+                        {
+                            <tr>
+                                <th>Reviewed By</th>
+                                <td>
+                                    <span class="col text-left">@review.Username</span>
+                                </td>
+                                <th>Reviewed On</th>
+                                <td>
+                                    <span class="col text-left">@review.ReviewedOn</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Presentation</th>
+                                <td>
+                                    <span class="col text-right">@review.PresentationScore</span>
+                                </td>
+                                <th>Aroma</th>
+                                <td>
+                                    <span class="col text-right">@review.AromaScore</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Flavour</th>
+                                <td>
+                                    <span class="col text-right">@review.FlavourScore</span>
+                                </td>
+                                <th>Texture</th>
+                                <td>
+                                    <span class="col text-right">@review.TextureScore</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Total Score</th>
+                                <td>
+                                    <span class="col text-right">
+                                        @(@review.TextureScore + @review.PresentationScore + @review.FlavourScore + @review.AromaScore)
+                                    </span>
+                                </td>
+                                <td> </td>
+                                <td>
+                                    <a asp-controller="Review"
+                                       asp-action="Index"
+                                       asp-route-id="@review.FoodId">Edit Review</a>
+                                </td> 
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                @Html.ActionLink("Add New Review", "Index", "Review")
+
+                <br />
+
+                <p>There are currently no reviews for the food item.</p>
+            }
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index", "Food")
+</div>
+
+
+
+

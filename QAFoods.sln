@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.168
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QAFoods", "QAFoods\QAFoods.csproj", "{AFB72F67-DD84-4B2B-A3B6-C630AE0C14B0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QAFoodDb", "QAFoodDb\QAFoodDb.csproj", "{4AFC1B6D-9F55-436F-8AF5-4917ABCE2A4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QAFoodApi", "QAFoodApi\QAFoodApi.csproj", "{B2562C57-AC7E-463E-990C-94A978664F93}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AFB72F67-DD84-4B2B-A3B6-C630AE0C14B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFB72F67-DD84-4B2B-A3B6-C630AE0C14B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFB72F67-DD84-4B2B-A3B6-C630AE0C14B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFB72F67-DD84-4B2B-A3B6-C630AE0C14B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AFC1B6D-9F55-436F-8AF5-4917ABCE2A4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AFC1B6D-9F55-436F-8AF5-4917ABCE2A4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AFC1B6D-9F55-436F-8AF5-4917ABCE2A4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AFC1B6D-9F55-436F-8AF5-4917ABCE2A4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2562C57-AC7E-463E-990C-94A978664F93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2562C57-AC7E-463E-990C-94A978664F93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2562C57-AC7E-463E-990C-94A978664F93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2562C57-AC7E-463E-990C-94A978664F93}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2DE66F21-E198-4EC9-A108-79F2B0A3E9F9}
+	EndGlobalSection
+EndGlobal
