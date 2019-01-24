@@ -26,10 +26,10 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <b> Select a Food Item to Review:</b>
-                                    <select id="dd_food" name="dd_food">
-                                        <option value="0">--Select Food Item--</option>
-                                    </select>
-                                    <input type="text" id="selectErrorMsg" class="form-control text-danger" value="Please select food item to review" style="display: none" />
+                                <select id="dd_food" name="dd_food">
+                                    <option value="0">--Select Food Item--</option>
+                                </select>
+                                <input type="text" id="selectErrorMsg" class="form-control text-danger" value="Please select food item to review" style="display: none" />
                             </div>
                         </div>
                         <div class="row">
@@ -89,6 +89,9 @@
                             </div>
                         </div>
                         <!-- /.row (nested) -->
+                    </div>
+                    <div class="row">                        
+                        <input type="button" onclick="RedirectToUrl()" value="BACK" class="btn btn-primary" />
                     </div>
                     <!-- /.panel-body -->
                 </div>
@@ -192,7 +195,7 @@
                     contentType: "application/json;",
                     success: function (data) {
                         console.log(data);
-                        RedirectToUrl(`/review/index/${parseInt(foodId)}`);
+                        RedirectToUrl();
                     },
                     error: function (xhr, textStatus, errorThrown) {
                         console.log('Error in Operation');
@@ -201,14 +204,10 @@
             }
         });
 
-        function RedirectToUrl(url) {
-            $.ajax({
-                url: url,
-                type: "GET",
-                success: function (data) {
-                    console.log(data);
-                }
-            })
+        function RedirectToUrl() {
+            var foodid = $('#dd_food').val();
+            var url = `/review/foodreview/${foodid}`;
+            $(location).attr('href', `/review/foodreview/${foodid}`);
         }
 
         function ValidateForm(e) {

@@ -17,8 +17,8 @@ namespace QAFoodDb
 
             var builder = new DbContextOptionsBuilder<QAFoodContext>();
 
-            string connectionstr = @"server=LAPTOP-5URJHDOL; database=QAFoodDb; user id=sa; password=password123;";
-
+            //string connectionstr = @"server=INVH580\NETSUPPORT; database=QAFoodDb; user id=sa; password=Testing123;"; 
+            string connectionstr = @"server = LAPTOP-5URJHDOL; database = QAFoodDb; user id = sa; password = password123;";
             builder.UseSqlServer(connectionstr);
 
             return new QAFoodContext(builder.Options);

@@ -67,7 +67,7 @@ namespace QAFoods.Controllers
                     var result = postTask.Result;
                     if (result.IsSuccessStatusCode)
                     {
-                        return RedirectToAction("FoodReview", "Food", review.FoodId);
+                        RedirectToAction("FoodReview", "Food", review.FoodId);
                     }
                     else
                     {
@@ -101,7 +101,7 @@ namespace QAFoods.Controllers
                     var result = putTask.Result;
                     if (result.IsSuccessStatusCode)
                     {
-                        return RedirectToAction("FoodReview", "Review", review.ReviewId);
+                        RedirectToAction("FoodReview", "Review", review.FoodId);
                     }
                     else
                     {

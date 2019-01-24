@@ -23,6 +23,7 @@ namespace QAFoodDb
         {
             if (!optionsBuilder.IsConfigured)
             {
+                //string connectionstr = @"server=INVH580\NETSUPPORT; database=QAFoodDb; user id=sa; password=Testing123;";
                 string connectionstr = @"server=LAPTOP-5URJHDOL; database=QAFoodDb; user id=sa; password=password123;";
                 optionsBuilder
                     .UseSqlServer(connectionstr, providerOptions => providerOptions.CommandTimeout(60))

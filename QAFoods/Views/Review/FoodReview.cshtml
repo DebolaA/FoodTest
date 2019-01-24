@@ -12,22 +12,19 @@
 <div class="form-horizontal">
     <h4>Food Details</h4>
     <hr />
-    @foreach (var val in Model.AllReviews)
-    {
-        <div class="row">
-            <label for="FoodDesc" class="control-label col-md-2">Food Reference</label>
-            <div class="col-md-10">
-                <label id="FoodDesc" value="FoodDesc" name="FoodDesc" class="control-label">@val.FoodId</label>
-            </div>
+    <div class="row">
+        <label for="FoodDesc" class="control-label col-md-2">Food Reference</label>
+        <div class="col-md-10">
+            <label id="FoodId" value="FoodId" name="FoodId" class="control-label">@Model.AllReviews[0].FoodId</label>
         </div>
+    </div>
 
-        <div class="row">
-            <label for="FoodName" class="control-label col-md-2">Food Name:</label>
-            <div class="col-md-10">
-                <label id="FoodName" value="FoodName" name="FoodName" class="control-label">@val.FoodName</label>
-            </div>
+    <div class="row">
+        <label for="FoodName" class="control-label col-md-2">Food Name:</label>
+        <div class="col-md-10">
+            <label id="FoodName" value="FoodName" name="FoodName" class="control-label">@Model.AllReviews[0].FoodName</label>
         </div>
-    }
+    </div>
 
     <h4>Reviews</h4>
     <hr />
@@ -85,7 +82,7 @@
                                     <a asp-controller="Review"
                                        asp-action="Index"
                                        asp-route-id="@review.FoodId">Edit Review</a>
-                                </td> 
+                                </td>
                             </tr>
                         }
                     </tbody>
@@ -93,7 +90,7 @@
             }
             else
             {
-                @Html.ActionLink("Add New Review", "Index", "Review")
+                @Html.ActionLink("Add New Review", "Index", "Review", new { id = Model.AllReviews[0].FoodId })
 
                 <br />
 
